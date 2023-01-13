@@ -54,16 +54,16 @@ namespace ExcelDataReader
 
             //string jsonPath = "C:\\Users\\larsw\\Downloads\\output.txt";
 
-            string jsonPath = "C:\\Users\\larsw\\GnuflingSoloutions\\FoodDatasets\\Food\\FoodAsJSON.txt";
+            string jsonPath = "C:\\Users\\larsw\\GnuflingSoloutions\\FoodDatasets\\Food\\FoodItemsAsJSON.txt";
 
 
-             FoodToJSON(excelPath, jsonPath);
+             FoodToFoodItemsJSON(excelPath, jsonPath);
 
             MessageBox.Show("Done !");
         }
 
 
-        public void FoodToJSON(string inputFile, String outputFile)
+        public void FoodToFoodItemsJSON(string inputFile, String outputFile)
         {
 
             using (var inFile = File.Open(inputFile, FileMode.Open, FileAccess.Read))
@@ -76,8 +76,11 @@ namespace ExcelDataReader
             using (var writer = new JsonTextWriter(outFile))
             {
                 writer.Formatting = Newtonsoft.Json.Formatting.Indented;
+                writer.QuoteName = false;
+                //writer.Formatting = Newtonsoft.Json.Formatting.None;
                 //writer.Formatting = Formatting.Indented;
                 writer.WriteStartArray();
+
                 //You can skip the first row, as it contains the titles.
                 reader.Read();
                 do
@@ -85,13 +88,13 @@ namespace ExcelDataReader
                     while (reader.Read())
                     {
                         //We don't need an empty object
-                        var foodNameDK = reader.GetString(0);
-                        if (string.IsNullOrEmpty(foodNameDK)) break;
+                        var nameDK = reader.GetString(0);
+                        if (string.IsNullOrEmpty(nameDK)) break;
 
                         writer.WriteStartObject();
                         //Select Columns and values
                         writer.WritePropertyName("NameDK");
-                        writer.WriteValue(foodNameDK);
+                        writer.WriteValue(nameDK);
 
 
                         var foodNameENG = reader.GetString(1);
@@ -99,7 +102,7 @@ namespace ExcelDataReader
                         {
                             foodNameENG = string.Empty;
                         }
-                        writer.WritePropertyName("NameENG");
+                        writer.WritePropertyName("NameENG =");
                         writer.WriteValue(foodNameENG);
 
 
@@ -108,15 +111,16 @@ namespace ExcelDataReader
                         {
                             foodId = string.Empty;
                         }
-                        writer.WritePropertyName("Id");
-                        writer.WriteValue(foodId);
+                        writer.WritePropertyName("FridaFoodItemId =");
+                        //writer.WriteValue(foodId);
+                        writer.WriteRawValue(foodId);
 
                         var taxonomicName = reader.GetString(3);
                         if (string.IsNullOrEmpty(taxonomicName))
                         {
                             taxonomicName = string.Empty;
                         }
-                        writer.WritePropertyName("TaxonomicName");
+                        writer.WritePropertyName("TaxonomicName =");
                         writer.WriteValue(taxonomicName);
 
                         var FoodEx2Code = reader.GetString(4);
@@ -124,20 +128,22 @@ namespace ExcelDataReader
                         {
                             FoodEx2Code = string.Empty;
                         }
-                        writer.WritePropertyName("FoodEx2Code");
+                        writer.WritePropertyName("FoodEx2Code =");
                         writer.WriteValue(FoodEx2Code);
 
-                        var foodGroupId = reader.GetDouble(5).ToString();
-                        if (string.IsNullOrEmpty(foodGroupId))
+                        var foodItemGroupId = reader.GetDouble(5).ToString();
+                        if (string.IsNullOrEmpty(foodItemGroupId))
                         {
-                            foodGroupId = string.Empty;
+                            foodItemGroupId = string.Empty;
                         }
-                        writer.WritePropertyName("FoodGroupId");
-                        writer.WriteValue(foodGroupId);
+                        writer.WritePropertyName("FoodItemGroupId =");
+                        //writer.WriteValue(foodItemGroupId);
+                        writer.WriteRawValue(foodItemGroupId);
 
                        
-                        writer.WritePropertyName("FoodSourceId");
-                        writer.WriteValue("1"); 
+                        writer.WritePropertyName("FoodSourceId =");
+                        //writer.WriteValue("1"); 
+                        writer.WriteRawValue("1");
 
 
 
@@ -192,7 +198,7 @@ namespace ExcelDataReader
 
                         writer.WriteStartObject();
                         //Select Columns and values
-                        writer.WritePropertyName("FoodNameDK");
+                        writer.WritePropertyName("FoodNameDk");
                         writer.WriteValue(foodNameDK);
 
 
@@ -201,7 +207,7 @@ namespace ExcelDataReader
                         {
                             foodNameENG = string.Empty;
                         }
-                        writer.WritePropertyName("FoodNameENG");
+                        writer.WritePropertyName("FoodNameEng");
                         writer.WriteValue(foodNameENG);
 
 
@@ -1181,6 +1187,132 @@ namespace ExcelDataReader
                 writer.WriteEndArray();
             }
         }
+
+        private void convertFoodToSqlBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fil = new OpenFileDialog();
+            fil.ShowDialog();
+            string excelPath = fil.FileName.ToString();
+
+            //string jsonPath = "C:\\Users\\larsw\\Downloads\\output.txt";
+
+            string sqlScriptPath = "C:\\Users\\larsw\\GnuflingSoloutions\\FoodDatasets\\Food\\FoodAsSqlScript.txt";
+
+
+
+        }
+
+
+        public void FoodToSQL(string inputFile, String outputFile)
+        {
+
+            using (var inFile = File.Open(inputFile, FileMode.Open, FileAccess.Read))
+            using (var outFile = File.CreateText(outputFile))
+            using (var reader = ExcelReaderFactory.CreateReader(inFile,
+            new ExcelReaderConfiguration { FallbackEncoding = Encoding.GetEncoding(1252) }))
+
+            //new JsonTextWriter(outFile))
+
+            using (var writer = new JsonTextWriter(outFile))
+            {
+                writer.Formatting = Newtonsoft.Json.Formatting.Indented;
+                //writer.Formatting = Formatting.Indented;
+                writer.WriteStartArray();
+                //You can skip the first row, as it contains the titles.
+                reader.Read();
+                do
+                {
+                    while (reader.Read())
+                    {
+
+                        
+
+                        //We don't need an empty object
+                        var foodNameDK = reader.GetString(0);
+                        if (string.IsNullOrEmpty(foodNameDK)) break;
+
+                        writer.WriteStartObject();
+                        //Select Columns and values
+                        writer.WritePropertyName("NameDK");
+                        writer.WriteValue(foodNameDK);
+
+
+                        var foodNameENG = reader.GetString(1);
+                        if (string.IsNullOrEmpty(foodNameENG))
+                        {
+                            foodNameENG = string.Empty;
+                        }
+                        writer.WritePropertyName("NameENG");
+                        writer.WriteValue(foodNameENG);
+
+
+                        var foodId = reader.GetDouble(2).ToString();
+                        if (string.IsNullOrEmpty(foodId))
+                        {
+                            foodId = string.Empty;
+                        }
+                        writer.WritePropertyName("Id");
+                        writer.WriteValue(foodId);
+
+                        var taxonomicName = reader.GetString(3);
+                        if (string.IsNullOrEmpty(taxonomicName))
+                        {
+                            taxonomicName = string.Empty;
+                        }
+                        writer.WritePropertyName("TaxonomicName");
+                        writer.WriteValue(taxonomicName);
+
+                        var FoodEx2Code = reader.GetString(4);
+                        if (string.IsNullOrEmpty(FoodEx2Code))
+                        {
+                            FoodEx2Code = string.Empty;
+                        }
+                        writer.WritePropertyName("FoodEx2Code");
+                        writer.WriteValue(FoodEx2Code);
+
+                        var foodGroupId = reader.GetDouble(5).ToString();
+                        if (string.IsNullOrEmpty(foodGroupId))
+                        {
+                            foodGroupId = string.Empty;
+                        }
+                        writer.WritePropertyName("FoodGroupId");
+                        writer.WriteValue(foodGroupId);
+
+
+                        writer.WritePropertyName("FoodSourceId");
+                        writer.WriteValue("1");
+
+
+
+
+
+
+
+                        /*
+                        writer.WritePropertyName("Gender");
+                        writer.WriteValue(reader.GetString(2));
+
+                        writer.WritePropertyName("State");
+                        writer.WriteValue(reader.GetString(3));
+                        */
+                        writer.WriteEndObject();
+                    }
+                } while (reader.NextResult());
+
+                writer.WriteEndArray();
+            }
+
+
+
+            //reader.Close();
+
+        }
+
+
+
+
+
+
     }
 
 

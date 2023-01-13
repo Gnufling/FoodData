@@ -41,12 +41,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.convertFoodToSqlBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -59,7 +60,7 @@
             this.foodBtn.Name = "foodBtn";
             this.foodBtn.Size = new System.Drawing.Size(114, 52);
             this.foodBtn.TabIndex = 2;
-            this.foodBtn.Text = "Convert food to FoodAsJSON";
+            this.foodBtn.Text = "Convert food to FoodItemsAsJSON";
             this.foodBtn.UseVisualStyleBackColor = true;
             this.foodBtn.Click += new System.EventHandler(this.foodBtn_Click);
             // 
@@ -190,6 +191,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Parameter";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(258, 20);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(89, 13);
+            this.label8.TabIndex = 9;
+            this.label8.Text = "ParameterGroups";
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -228,15 +238,6 @@
             this.label7.TabIndex = 8;
             this.label7.Text = "FoodParameters";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(258, 20);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(89, 13);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "ParameterGroups";
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.convertSourcesBtn);
@@ -247,11 +248,22 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sources";
             // 
+            // convertFoodToSqlBtn
+            // 
+            this.convertFoodToSqlBtn.Location = new System.Drawing.Point(538, 50);
+            this.convertFoodToSqlBtn.Name = "convertFoodToSqlBtn";
+            this.convertFoodToSqlBtn.Size = new System.Drawing.Size(111, 52);
+            this.convertFoodToSqlBtn.TabIndex = 19;
+            this.convertFoodToSqlBtn.Text = "Convert food to FoodAsSQLScript";
+            this.convertFoodToSqlBtn.UseVisualStyleBackColor = true;
+            this.convertFoodToSqlBtn.Click += new System.EventHandler(this.convertFoodToSqlBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 486);
+            this.ClientSize = new System.Drawing.Size(800, 563);
+            this.Controls.Add(this.convertFoodToSqlBtn);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -290,6 +302,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button convertFoodToSqlBtn;
     }
 }
 
